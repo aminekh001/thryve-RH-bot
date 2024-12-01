@@ -11,6 +11,7 @@ from google.cloud import texttospeech
 from django.contrib.auth.models import User
 from django.conf import settings
 from .models import Interview
+from .serializers import InterviewSerializer
 
 # Load environment variables
 env = environ.Env()
@@ -204,3 +205,20 @@ def _generate_audio(text, path):
 
     with open(path, "wb") as audio_file:
         audio_file.write(response.audio_content)
+
+class InterviewDetailView(APIView):
+    def get(self, request, interview_id):
+        try:
+            interview = Interview.objects.get(interview_id=interview_id)
+            serializer = InterviewSerializer(interview)
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        except Interview.DoesNotExist:
+            return Response(
+                {"error": f"Interview with ID {interview_id} not found"},
+                status=status.HTTP_404_NOT_FOUND
+            )
+        except Exception as e:
+            return Response(
+                {"error": f"An unexpected error occurred: {str(e)}"},
+                status=status.HTTP_500_INTERNAL_SERVER_ERROR
+            )
