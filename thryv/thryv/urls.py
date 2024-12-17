@@ -21,7 +21,8 @@ from django.conf.urls.static import static
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('api/', include('rhBot.urls')),  # Ensure the correct app name here (e.g., 'rhBot')
+    path('api/', include('rhBot.urls')),
+    path('api/', include('cvBot.urls')),
 ]
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

@@ -93,6 +93,7 @@ INSTALLED_APPS = [
     'corsheaders',
     'rest_framework',
     'rhBot',
+    'cvBot',
 ]
 
 CORS_ALLOWED_ORIGINS = [
